@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Should I Buy It?</title>
+
+<style>
+*{box-sizing:border-box;font-family:"Times New Roman",serif}
+
+body{
+margin:0;
+background:#111;
+color:white;
+}
+
+#calculator{
+width:100%;
+max-width:420px;
+height:700px;
+overflow-y:auto;
+margin:30px auto;
+padding:15px;
+}
+
+.box{
+background:#1c1c1c;
+border:2px solid #e00000;
+border-radius:10px;
+padding:20px;
+}
+
+h1{
+color:#e00000;
+text-align:center;
+margin-top:0;
+}
+
+p{text-align:center}
+
+label{
+display:block;
+font-weight:bold;
+margin-top:15px;
+margin-bottom:5px;
+}
+
+input,select{
+width:100%;
+height:42px;
+padding:8px;
+background:#2b2b2b;
+color:white;
+border:1px solid #555;
+border-radius:5px;
+font-size:16px;
+}
+
+#currency{width:90px}
+
+button{
+width:100%;
+height:45px;
+margin-top:25px;
+background:#e00000;
+color:white;
+border:0;
+border-radius:5px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+#result{
+display:none;
+margin-top:20px;
+padding:18px;
+background:#2b2b2b;
+border:1px solid #e00000;
+border-radius:5px;
+text-align:center;
+line-height:1.6;
+}
+
+.title{
+color:#e00000;
+font-size:22px;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div id="calculator">
+<div class="box">
+
+<h1>Should I Buy It?</h1>
+
+<p>
+This calculator uses the 50/30/20 budgeting rule to help you decide if a purchase fits your budget.
+</p>
+
+<label>Currency</label>
+
+<select id="currency">
+<option value="€">€ EUR</option>
+<option value="$">$ USD</option>
+</select>
+
+<label>Monthly Income</label>
+<input type="number" id="income" min="0" placeholder="e.g. 2000">
+
+<label>Monthly Spending</label>
+<input type="number" id="spending" min="0" placeholder="e.g. 1000">
+
+<label>Short-Term Savings</label>
+<input type="number" id="savings" min="0" placeholder="e.g. 1500">
+
+<label>Item Cost</label>
+<input type="number" id="cost" min="0" placeholder="e.g. 100">
+
+<button onclick="calculate()">Should I Buy It?</button>
+
+<div id="result"></div>
+
+</div>
+</div>
+
+
+<script>
+
+function calculate(){
+
+let c=document.getElementById("currency").value;
+let income=Number(document.getElementById("income").value);
+let spending=Number(document.getElementById("spending").value);
+let savings=Number(document.getElementById("savings").value);
+let cost=Number(document.getElementById("cost").value);
+let result=document.getElementById("result");
+
+if(income<=0||spending<0||savings<0||cost<=0){
+result.style.display="block";
+result.innerHTML="Please enter valid amounts.";
+return;
+}
+
+
+/* 50/30/20 rule */
+
+let needs=income*0.50;
+let wants=income*0.30;
+let savingTarget=income*0.20;
+
+
+/* Money left after spending */
+
+let leftover=income-spending;
+
+
+/* How much of the wants budget remains */
+
+let wantsLeft=wants-spending;
+
+
+/* How much savings the purchase uses */
+
+let savingsPercent=savings>0?(cost/savings)*100:100;
+
+
+/* Five results */
+
+if(spending<=needs && cost<=wants*0.25 && savingsPercent<=10){
+
+result.innerHTML=
+'<div class="title">Yes, you should buy it!</div>'+
+'<br>This purchase fits comfortably within the 50/30/20 guideline and only uses a small part of your savings.';
+
+}
+
+else if(spending<=needs && cost<=wants*0.50 && savingsPercent<=20){
+
+result.innerHTML=
+'<div class="title">Probably okay!</div>'+
+'<br>You are within the needs guideline, and the purchase uses a reasonable part of your wants budget.';
+
+}
+
+else if(spending<=needs && cost<=wants && savingsPercent<=30){
+
+result.innerHTML=
+'<div class="title">Think about it.</div>'+
+'<br>You can probably fit this purchase into your wants budget, but it would have a noticeable effect on your money.';
+
+}
+
+else if(spending<=needs && cost<=wants*1.5 && savingsPercent<=50){
+
+result.innerHTML=
+'<div class="title">Be careful!</div>'+
+'<br>This purchase is larger than the recommended wants budget. Consider saving for it first.';
+
+}
+
+else{
+
+result.innerHTML=
+'<div class="title">No, don't buy it!</div>'+
+'<br>This purchase does not fit well with the 50/30/20 guideline and could put pressure on your savings.';
+
+}
+
+
+/* Extra information */
+
+result.innerHTML+=
+"<br><br>"+
+"50% needs budget: "+c+needs.toFixed(2)+
+"<br>30% wants budget: "+c+wants.toFixed(2)+
+"<br>20% savings target: "+c+savingTarget.toFixed(2)+
+"<br><br>"+
+"Your monthly spending: "+c+spending.toFixed(2)+
+"<br>Item cost: "+c+cost.toFixed(2);
+
+result.style.display="block";
+
+}
+
+</script>
+
+</body>
+</html>
