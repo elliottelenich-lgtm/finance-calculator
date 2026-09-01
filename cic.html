@@ -1,20 +1,90 @@
-<div id="calc">
+<!DOCTYPE html>
+<html>
+<head>
+<title>Compound Interest</title>
+
 <style>
-#calc,#calc *{box-sizing:border-box;font-family:"Times New Roman",serif}
-#calc{width:100%;max-width:420px;height:600px;overflow-y:auto;overflow-x:hidden;background:#111;padding:15px;margin:auto}
-.box{background:#111;border:2px solid #e00000;border-radius:10px;padding:20px}
-h1{text-align:center;color:#e00000;margin:0 0 20px}
-label{display:block;color:white;font-weight:bold;margin:12px 0 5px}
-input,select{width:100%;height:42px;padding:8px;background:#2b2b2b;color:white;border:1px solid #555;border-radius:5px;font-size:16px}
-select{width:90px}
-button{width:100%;height:45px;margin-top:22px;background:#e00000;color:white;border:0;border-radius:5px;font-size:18px;font-weight:bold}
-#result{display:none;margin-top:20px;padding:15px;background:#2b2b2b;color:white;border:1px solid #e00000;border-radius:5px;text-align:center;line-height:1.6}
+*{
+box-sizing:border-box;
+font-family:"Times New Roman",serif;
+}
+
+body{
+margin:0;
+background:#111;
+color:white;
+padding:30px 15px;
+}
+
+.box{
+max-width:420px;
+margin:auto;
+background:#1c1c1c;
+border:2px solid #e00000;
+border-radius:10px;
+padding:20px;
+}
+
+h1{
+text-align:center;
+color:#e00000;
+margin-top:0;
+}
+
+label{
+display:block;
+font-weight:bold;
+margin:12px 0 5px;
+}
+
+input,select{
+width:100%;
+height:42px;
+padding:8px;
+background:#2b2b2b;
+color:white;
+border:1px solid #555;
+border-radius:5px;
+font-size:16px;
+}
+
+select{
+width:90px;
+}
+
+button{
+width:100%;
+height:45px;
+margin-top:22px;
+background:#e00000;
+color:white;
+border:0;
+border-radius:5px;
+font-size:18px;
+font-weight:bold;
+}
+
+#result{
+display:none;
+margin-top:20px;
+padding:15px;
+background:#2b2b2b;
+border:1px solid #e00000;
+border-radius:5px;
+text-align:center;
+line-height:1.6;
+}
 </style>
+</head>
+
+<body>
 
 <div class="box">
+
 <h1>Compound Interest</h1>
 
 <label>Currency</label>
+
 <select id="currency">
 <option value="€">€ EUR</option>
 <option value="$">$ USD</option>
@@ -35,32 +105,33 @@ button{width:100%;height:45px;margin-top:22px;background:#e00000;color:white;bor
 <button onclick="calculate()">Calculate Savings</button>
 
 <div id="result"></div>
+
 </div>
 
 <script>
+
 function calculate(){
 
 let c=document.getElementById("currency").value;
 let p=Number(document.getElementById("initial").value);
 let m=Number(document.getElementById("monthly").value);
-let r=Number(document.getElementById("rate").value)/100/12;
+let r=Number(document.getElementById("rate").value)/1200;
 let y=Number(document.getElementById("years").value);
 
 if(p<0||m<0||r<0||y<=0){
-document.getElementById("result").innerHTML="Please enter valid amounts.";
+
+document.getElementById("result").innerHTML=
+"Please enter valid amounts.";
+
 document.getElementById("result").style.display="block";
+
 return;
 }
 
 let months=y*12;
 
-let growth=p*Math.pow(1+r,months);
-
-let contributions=r===0
-?m*months
-:m*((Math.pow(1+r,months)-1)/r);
-
-let total=growth+contributions;
+let total=p*Math.pow(1+r,months)+
+m*((Math.pow(1+r,months)-1)/r);
 
 let invested=p+m*months;
 
@@ -69,11 +140,14 @@ let interest=total-invested;
 document.getElementById("result").innerHTML=
 "<strong>After "+y+" years:</strong><br><br>"+
 "<strong>"+c+total.toFixed(2)+"</strong><br><br>"+
-"Money contributed: "+c+invested.toFixed(2)+"<br>"+
-"Interest earned: "+c+interest.toFixed(2);
+"Money contributed: "+c+invested.toFixed(2)+
+"<br>Interest earned: "+c+interest.toFixed(2);
 
 document.getElementById("result").style.display="block";
+
 }
+
 </script>
 
-</div>
+</body>
+</html>
